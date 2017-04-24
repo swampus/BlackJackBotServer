@@ -10,9 +10,9 @@ import rx.Observable;
 public class GameTokenStorage extends AbstractStorage implements Storage<GameToken> {
 
 	@Override
-	public Observable<Void> put(GameToken value) {
+	public Observable<Void> put(GameToken gameToken) {
 		return reactiveCommands
-				.set(createGamesTokenNameKey(value.getGameName()), value.getToken())
+				.set(createGamesTokenNameKey(gameToken.getGameName()), gameToken.getToken())
 				.map(t -> null);
 	}
 

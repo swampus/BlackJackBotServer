@@ -1,4 +1,4 @@
-package blackjack.bot.server.service;
+package blackjack.bot.server.service.auth;
 
 import blackjack.bot.server.exception.GameOperationAuthFailedException;
 import blackjack.bot.server.storage.GameTokenStorage;
@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import rx.Observable;
 
 @Service
-public class AuthService {
+public class GameAuth {
 
 	@Autowired
 	private GameTokenStorage gameTokenStorage;

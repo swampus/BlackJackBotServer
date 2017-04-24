@@ -122,17 +122,20 @@ public class CasinoManagementServiceUnitTest {
 
 		assertEquals(new Casino("A1", "B1"), casGames.toBlocking().first().getCasino());
 		assertEquals(new Casino("A3", "B3"), casGames.toBlocking().last().getCasino());
-
-
 		assertEquals(new Game("gm1", "q1"),
 				casGames.toBlocking().first().getGames().toBlocking().first());
 		assertEquals(new Game("gm3", "q3"),
 				casGames.toBlocking().first().getGames().toBlocking().last());
 
-		verify(gameStorage, times(1)).getAllByCasino("A1");
+		/*
+			Can not test with equals - testSubscriber,
+			test with toBlocking, subscribing to Observable several times
+		*/
+		verify(casinoStorage, times(1)).getAll();
+		verify(gameStorage, times(4)).getAllByCasino("A1");
 		verify(gameStorage, times(1)).getAllByCasino("A2");
 		verify(gameStorage, times(1)).getAllByCasino("A3");
 
-		verifyNoMoreInteractions(gameStorage);
+		verifyNoMoreInteractions(casinoStorage, gameStorage);
 	}
 }

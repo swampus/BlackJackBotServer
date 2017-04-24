@@ -11,12 +11,4 @@ public interface Validator<T> {
 		return newObject;
 	}
 
-	default T checkExists(T object) {
-		if (object == null) {
-			assert false;
-			throw new ObjectIsNotExists(object.getClass().getSimpleName());
-		}
-		return object;
-	}
-
 }

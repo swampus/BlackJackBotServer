@@ -1,5 +1,6 @@
 package blackjack.bot.server.service;
 
+import blackjack.bot.server.service.auth.GameAuth;
 import blackjack.bot.server.storage.CardStorage;
 import blackjack.bot.server.storage.model.Card;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,16 +14,16 @@ public class CardManagementService {
 	private CardStorage cardStorage;
 
 	@Autowired
-	private AuthService authService;
+	private GameAuth gameAuth;
 
 	public Observable<Void> addCard(String gameName, String token, String card) {
-		return authService.auth(gameName, token)
+		return gameAuth.auth(gameName, token)
 				.map(t -> cardStorage.put(new Card(gameName, card)))
 				.map(t -> null);
 	}
 
 	public Observable<Card> getAllCardsByGame(String gameName, String token) {
-		return authService.auth(gameName, token)
+		return gameAuth.auth(gameName, token)
 				.flatMap(t -> cardStorage.getAllCardsInGame(gameName));
 	}
 

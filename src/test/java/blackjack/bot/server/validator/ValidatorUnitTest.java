@@ -25,23 +25,6 @@ public class ValidatorUnitTest {
 	}
 
 	@Test
-	public void checkExistsTest() throws Exception {
-		Validator<Casino> validator = new CasinoValidator();
-		assertEquals(new Casino("1", "2"), validator.checkExists(new Casino("1", "2")));
-	}
-
-	@Test
-	public void checkExistsException() throws Exception {
-		Validator<Casino> validator = new CasinoValidator();
-		try {
-			validator.checkExists(null);
-			fail();
-		} catch (ObjectIsNotExists e) {
-			assertEquals("adas", e.getMessage());
-		}
-	}
-
-	@Test
 	public void testDatabaseContainsEqualsFalse() throws Exception {
 		Validator<Casino> validator = new CasinoValidator();
 		Casino db = new Casino("N", "A");

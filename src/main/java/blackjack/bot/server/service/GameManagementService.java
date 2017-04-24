@@ -1,5 +1,6 @@
 package blackjack.bot.server.service;
 
+import blackjack.bot.server.service.auth.GameAuth;
 import blackjack.bot.server.storage.CardStorage;
 import blackjack.bot.server.storage.GameStorage;
 import blackjack.bot.server.storage.GameTokenStorage;
@@ -30,7 +31,7 @@ public class GameManagementService {
 	private UtilsService utilsService;
 
 	@Autowired
-	private AuthService authService;
+	private GameAuth gameAuth;
 
 	/**
 	 * @param gameName   - game name
@@ -50,7 +51,7 @@ public class GameManagementService {
 	}
 
 	public Observable<Void> stopGame(String gameName, String gameToken) {
-		return authService.auth(gameName, gameToken)
+		return gameAuth.auth(gameName, gameToken)
 				.flatMap(t -> gameStorage.delete(gameName)
 						.flatMap(q -> {
 							cardStorage.deleteAllCardsInGame(gameName);
@@ -59,7 +60,7 @@ public class GameManagementService {
 	}
 
 	public Observable<Void> shuffleGame(String gameName, String gameToken) {
-		return authService.auth(gameName, gameToken)
+		return gameAuth.auth(gameName, gameToken)
 				.flatMap(t -> cardStorage.deleteAllCardsInGame(gameName)
 						.map(q -> null));
 	}

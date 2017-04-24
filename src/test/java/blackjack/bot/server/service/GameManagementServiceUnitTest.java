@@ -1,6 +1,7 @@
 package blackjack.bot.server.service;
 
 import blackjack.bot.server.exception.ObjectAlreadyExistsException;
+import blackjack.bot.server.service.auth.GameAuth;
 import blackjack.bot.server.storage.CardStorage;
 import blackjack.bot.server.storage.GameStorage;
 import blackjack.bot.server.storage.GameTokenStorage;
@@ -41,7 +42,7 @@ public class GameManagementServiceUnitTest {
 	private UtilsService utilsService;
 
 	@Mock
-	private AuthService authService;
+	private GameAuth gameAuth;
 
 
 	@InjectMocks
@@ -68,7 +69,7 @@ public class GameManagementServiceUnitTest {
 		verify(gameValidator, times(1)).databaseContainsEquals(null, newGame);
 		verify(gameTokenStorage, times(1)).put(gameToken);
 
-		verifyNoMoreInteractions(gameStorage, utilsService, gameValidator, gameTokenStorage);
+		verifyNoMoreInteractions(gameStorage, utilsService, gameValidator);
 	}
 
 	@Test
@@ -94,36 +95,36 @@ public class GameManagementServiceUnitTest {
 		verify(gameStorage, times(1)).get("gameName");
 		verify(gameValidator, times(1)).databaseContainsEquals(newGame, newGame);
 
-		verifyNoMoreInteractions(gameStorage, utilsService, gameValidator, gameTokenStorage);
+		verifyNoMoreInteractions(gameStorage, utilsService, gameValidator);
 	}
 
 	@Test
 	public void testStopGame() throws Exception {
 		when(gameStorage.delete("gameName")).thenReturn(Observable.just(null));
 		when(cardStorage.deleteAllCardsInGame("gameName")).thenReturn(Observable.just(null));
+		when(gameAuth.auth("gameName", "token")).thenReturn(Observable.just(null));
 		when(gameTokenStorage.delete("gameName")).thenReturn(Observable.just(null));
-		when(authService.auth("gameName", "gameToken")).thenReturn(Observable.just(null));
 
 		assertNull(gameManagementService.stopGame("gameName", "token").toBlocking().first());
 
-		verify(authService, times(1)).auth("gameName", "gameToken");
+		verify(gameAuth, times(1)).auth("gameName", "token");
 		verify(gameStorage, times(1)).delete("gameName");
 		verify(cardStorage, times(1)).deleteAllCardsInGame("gameName");
 		verify(gameTokenStorage, times(1)).delete("gameName");
 
-		verifyNoMoreInteractions(gameStorage, utilsService, gameValidator, gameTokenStorage);
+		verifyNoMoreInteractions(gameStorage, utilsService, gameValidator,gameTokenStorage);
 	}
 
 	@Test
 	public void testShuffleGame() throws Exception {
 		when(cardStorage.deleteAllCardsInGame("gm")).thenReturn(Observable.just(null));
-		when(authService.auth("gm", "gameToken")).thenReturn(Observable.just(null));
+		when(gameAuth.auth("gm", "token")).thenReturn(Observable.just(null));
 
 		assertNull(gameManagementService.shuffleGame("gm", "token").toBlocking().first());
 
-		verify(authService, times(1)).auth("gm", "gameToken");
+		verify(gameAuth, times(1)).auth("gm", "token");
 		verify(cardStorage, times(1)).deleteAllCardsInGame("gm");
 
-		verifyNoMoreInteractions(gameStorage, utilsService, gameValidator, gameTokenStorage);
+		verifyNoMoreInteractions(gameStorage, utilsService, gameValidator);
 	}
 }

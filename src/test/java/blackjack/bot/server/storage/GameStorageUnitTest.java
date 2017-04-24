@@ -14,6 +14,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -35,6 +36,8 @@ public class GameStorageUnitTest {
 
 		verify(reactiveCommands, times(1)).set("name", "casinoName");
 		verify(reactiveCommands, times(1)).lpush("casinoName_games", "name");
+
+		verifyNoMoreInteractions(reactiveCommands);
 	}
 
 	@Test
@@ -43,6 +46,8 @@ public class GameStorageUnitTest {
 		when(reactiveCommands.get("name")).thenReturn(Observable.just("address"));
 		assertEquals(game, gameStorage.get("name").toBlocking().first());
 		verify(reactiveCommands, times(1)).get("name");
+
+		verifyNoMoreInteractions(reactiveCommands);
 	}
 
 	@Test
@@ -50,6 +55,8 @@ public class GameStorageUnitTest {
 		when(reactiveCommands.get("name")).thenReturn(Observable.just(null));
 		assertEquals(new Game("name", null), gameStorage.get("name").toBlocking().first());
 		verify(reactiveCommands, times(1)).get("name");
+
+		verifyNoMoreInteractions(reactiveCommands);
 	}
 
 	@Test
@@ -74,6 +81,8 @@ public class GameStorageUnitTest {
 		testSubscriber.assertNoErrors();
 
 		verify(reactiveCommands, times(1)).lrange("casinoName_games", 0, Long.MAX_VALUE);
+
+		verifyNoMoreInteractions(reactiveCommands);
 
 	}
 

@@ -12,7 +12,7 @@ public class CardValidatorUnitTest {
 
 	@Test
 	public void testCheckCard() throws Exception {
-		Card validCard = new Card("gm", "C_1");
+		Card validCard = new Card("gm", "C_2");
 		CardValidator cardValidator = new CardValidator();
 
 		assertEquals(validCard, cardValidator.checkCard(validCard));

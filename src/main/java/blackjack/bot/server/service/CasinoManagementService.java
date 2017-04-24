@@ -53,9 +53,9 @@ public class CasinoManagementService {
 
 	public Observable<CasinoGames> getAllCasinosAndGames() {
 		return casinoStorage.getAll()
-				.map(casino -> new CasinoGames(casino, gameStorage.getAllByCasino(casino.getName())));
+				.map(casino -> new CasinoGames(casino,
+						gameStorage.getAllByCasino(casino.getName())));
 	}
-
 
 
 }

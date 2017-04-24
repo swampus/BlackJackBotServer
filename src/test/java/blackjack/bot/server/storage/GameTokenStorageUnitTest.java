@@ -26,18 +26,18 @@ public class GameTokenStorageUnitTest {
 
 	@Test
 	public void testPut() throws Exception {
-		GameToken gameToken = new GameToken("token", "name");
-		when(reactiveCommands.set("token", "name")).thenReturn(Observable.just("token"));
+		GameToken gameToken = new GameToken("gameName", "token");
+		when(reactiveCommands.set("gameName_token", "token")).thenReturn(Observable.just("token"));
 		assertNull(gameTokenStorage.put(gameToken).toBlocking().first());
-		verify(reactiveCommands, times(1)).set("token", "name");
+		verify(reactiveCommands, times(1)).set("gameName_token", "token");
 	}
 
 	@Test
 	public void testGet() throws Exception {
-		GameToken gameToken = new GameToken("token", "name");
-		when(reactiveCommands.get("token")).thenReturn(Observable.just("name"));
-		assertEquals(gameToken, gameTokenStorage.get("token").toBlocking().first());
-		verify(reactiveCommands, times(1)).get("token");
+		GameToken gameToken = new GameToken("gameName", "token");
+		when(reactiveCommands.get("gameName_token")).thenReturn(Observable.just("token"));
+		assertEquals(gameToken, gameTokenStorage.get("gameName").toBlocking().first());
+		verify(reactiveCommands, times(1)).get("gameName_token");
 	}
 
 
