@@ -1,6 +1,7 @@
 package blackjack.bot.server.validator;
 
 import blackjack.bot.server.exception.ObjectAlreadyExistsException;
+import blackjack.bot.server.exception.ObjectIsNotExists;
 
 public interface Validator<T> {
 	default T databaseContainsEquals(T databaseObject, T newObject) {
@@ -12,7 +13,8 @@ public interface Validator<T> {
 
 	default T checkExists(T object) {
 		if (object == null) {
-			throw new ObjectAlreadyExistsException(object.getClass().getSimpleName());
+			assert false;
+			throw new ObjectIsNotExists(object.getClass().getSimpleName());
 		}
 		return object;
 	}

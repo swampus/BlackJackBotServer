@@ -40,6 +40,10 @@ public class GameManagementServiceUnitTest {
 	@Mock
 	private UtilsService utilsService;
 
+	@Mock
+	private AuthService authService;
+
+
 	@InjectMocks
 	private GameManagementService gameManagementService = new GameManagementService();
 
@@ -98,21 +102,28 @@ public class GameManagementServiceUnitTest {
 		when(gameStorage.delete("gameName")).thenReturn(Observable.just(null));
 		when(cardStorage.deleteAllCardsInGame("gameName")).thenReturn(Observable.just(null));
 		when(gameTokenStorage.delete("gameName")).thenReturn(Observable.just(null));
+		when(authService.auth("gameName", "gameToken")).thenReturn(Observable.just(null));
 
-		assertNull(gameManagementService.stopGame("gameName").toBlocking().first());
+		assertNull(gameManagementService.stopGame("gameName", "token").toBlocking().first());
 
+		verify(authService, times(1)).auth("gameName", "gameToken");
 		verify(gameStorage, times(1)).delete("gameName");
 		verify(cardStorage, times(1)).deleteAllCardsInGame("gameName");
 		verify(gameTokenStorage, times(1)).delete("gameName");
 
+		verifyNoMoreInteractions(gameStorage, utilsService, gameValidator, gameTokenStorage);
 	}
 
 	@Test
 	public void testShuffleGame() throws Exception {
 		when(cardStorage.deleteAllCardsInGame("gm")).thenReturn(Observable.just(null));
+		when(authService.auth("gm", "gameToken")).thenReturn(Observable.just(null));
 
-		assertNull(gameManagementService.shuffleGame("gm").toBlocking().first());
+		assertNull(gameManagementService.shuffleGame("gm", "token").toBlocking().first());
 
+		verify(authService, times(1)).auth("gm", "gameToken");
 		verify(cardStorage, times(1)).deleteAllCardsInGame("gm");
+
+		verifyNoMoreInteractions(gameStorage, utilsService, gameValidator, gameTokenStorage);
 	}
 }

@@ -1,6 +1,7 @@
 package blackjack.bot.server.validator;
 
 import blackjack.bot.server.exception.ObjectAlreadyExistsException;
+import blackjack.bot.server.exception.ObjectIsNotExists;
 import blackjack.bot.server.storage.model.Casino;
 import org.junit.Test;
 
@@ -20,6 +21,23 @@ public class ValidatorUnitTest {
 			fail();
 		} catch (ObjectAlreadyExistsException e) {
 			assertEquals("Already Exists in database! - Casino", e.getMessage());
+		}
+	}
+
+	@Test
+	public void checkExistsTest() throws Exception {
+		Validator<Casino> validator = new CasinoValidator();
+		assertEquals(new Casino("1", "2"), validator.checkExists(new Casino("1", "2")));
+	}
+
+	@Test
+	public void checkExistsException() throws Exception {
+		Validator<Casino> validator = new CasinoValidator();
+		try {
+			validator.checkExists(null);
+			fail();
+		} catch (ObjectIsNotExists e) {
+			assertEquals("adas", e.getMessage());
 		}
 	}
 

@@ -14,7 +14,6 @@ public class RedisConfig {
 
 	@Bean
 	public RedisClient redisClient() {
-		System.out.println(host);
 		return RedisClient.create(host);
 	}
 

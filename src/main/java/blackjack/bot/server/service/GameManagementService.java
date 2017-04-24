@@ -50,16 +50,17 @@ public class GameManagementService {
 	}
 
 	public Observable<Void> stopGame(String gameName, String gameToken) {
-		return authService.auth(gameName, gameToken).map(t -> gameStorage.delete(gameName)
-				.flatMap(g -> {
-					cardStorage.deleteAllCardsInGame(gameName);
-					return gameTokenStorage.delete(gameName);
-				}).map(t -> null));
+		return authService.auth(gameName, gameToken)
+				.flatMap(t -> gameStorage.delete(gameName)
+						.flatMap(q -> {
+							cardStorage.deleteAllCardsInGame(gameName);
+							return gameTokenStorage.delete(gameName);
+						}).map(n -> null));
 	}
 
 	public Observable<Void> shuffleGame(String gameName, String gameToken) {
-		authService.auth(gameName, gameToken)
-				.map(t -> cardStorage.deleteAllCardsInGame(gameName)
+		return authService.auth(gameName, gameToken)
+				.flatMap(t -> cardStorage.deleteAllCardsInGame(gameName)
 						.map(q -> null));
 	}
 
