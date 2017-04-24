@@ -1,12 +1,23 @@
 package blackjack.bot.server.rest.controller;
 
-import blackjack.bot.server.storage.GameStorage;
+import blackjack.bot.server.rest.factory.CalculationSystemFactory;
+import blackjack.bot.server.rest.model.DeckShuffleRequest;
+import blackjack.bot.server.rest.model.GameFinishRequest;
+import blackjack.bot.server.rest.model.GameStateResponse;
+import blackjack.bot.server.rest.model.GetGameStateRequest;
+import blackjack.bot.server.service.CardManagementService;
+import blackjack.bot.server.service.GameManagementService;
+import blackjack.bot.server.storage.model.Game;
+import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.List;
 
 
 @Controller
@@ -14,16 +25,75 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class GameController {
 
 	@Autowired
-	private GameStorage gameStorage;
+	private GameManagementService gameManagementService;
 
-	@RequestMapping(value = "/create/{gameName}/{gameToken}", method = RequestMethod.POST)
+	@Autowired
+	private CardManagementService cardManagementService;
+
+	@Autowired
+	private CalculationSystemFactory calculationSystemFactory;
+
+	@RequestMapping(value = "/game/start}",
+			method = RequestMethod.POST,
+			produces = MediaType.APPLICATION_JSON_VALUE,
+			consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public String createGame(@PathVariable("gameName") String gameName,
-	                         @PathVariable("gameToken") String gameToken) {
-//		gameStorage.putCard(gameName,"A").subscribe();
-//		gameStorage.putCard(gameName,"10").subscribe();
-//		gameStorage.putCard(gameName,"9").subscribe();
-//		gameStorage.putCard(gameName,"8").subscribe();
-		return "test";
+	public void startGame() {
 	}
+
+	@RequestMapping(value = "/game/state}",
+			method = RequestMethod.POST,
+			produces = MediaType.APPLICATION_JSON_VALUE,
+			consumes = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public GameStateResponse getGameState(@RequestBody GetGameStateRequest gameStateRequest) {
+		return new GameStateResponse(gameStateRequest.getGameName(),
+				calculationSystemFactory
+						.createCardCalculationSystem(gameStateRequest.getSystem())
+						.calculate(cardManagementService.getAllCardsByGame(gameStateRequest.getGameName(),
+								gameStateRequest.getGameName())).toBlocking().first());
+	}
+
+
+	@RequestMapping(value = "/game/shuffle}",
+			method = RequestMethod.POST,
+			produces = MediaType.APPLICATION_JSON_VALUE,
+			consumes = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public void shuffleGame(DeckShuffleRequest deckShuffleRequest) {
+		gameManagementService
+				.shuffleGame(deckShuffleRequest.getGameName(), deckShuffleRequest.getGameToken());
+	}
+
+	@RequestMapping(value = "/game/stop}",
+			method = RequestMethod.POST,
+			produces = MediaType.APPLICATION_JSON_VALUE,
+			consumes = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public void stopGame(GameFinishRequest gameFinishRequest) {
+		gameManagementService
+				.stopGame(gameFinishRequest.getGameName(), gameFinishRequest.getGameToken());
+	}
+
+
+	@RequestMapping(value = "/game/casino/advantage}",
+			method = RequestMethod.POST,
+			produces = MediaType.APPLICATION_JSON_VALUE,
+			consumes = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Game> displayAllGamesInCasino() {
+		return Lists.newArrayList();
+	}
+
+
+	@RequestMapping(value = "/game/casino/advantage}",
+			method = RequestMethod.POST,
+			produces = MediaType.APPLICATION_JSON_VALUE,
+			consumes = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Game> displayAllGamesWithAdvantageInCasino() {
+		return Lists.newArrayList();
+	}
+
+
 }

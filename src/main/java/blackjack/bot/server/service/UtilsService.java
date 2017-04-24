@@ -10,9 +10,4 @@ public class UtilsService {
 	public String createRandomId() {
 		return String.valueOf(UUID.randomUUID());
 	}
-
-	public Long sumCard(Card firstCard, Card secondCard){
-		//firstCard.getCard()
-		return null;
-	}
 }

@@ -1,4 +1,4 @@
-package blackjack.bot.server.redis;
+package blackjack.bot.server.config.redis;
 
 import com.lambdaworks.redis.RedisClient;
 import com.lambdaworks.redis.api.rx.RedisReactiveCommands;
