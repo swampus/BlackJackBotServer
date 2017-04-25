@@ -13,6 +13,8 @@ public class HandAnalyzerService {
 	public static final int FIRST = 0;
 	public static final int SECOND = 1;
 	public static final int ACE_VALUE_WHEN_SOFT_DRAW = 10;
+	public static final int CARDS_IN_DECK = 52;
+	public static final int DECKS_IN_CLASSIC_BLACK_JACK = 6;
 
 	public Integer calculateCardsValue(List<Card> cards) {
 		return cards.stream().collect(Collectors.summingInt(card ->
@@ -39,6 +41,15 @@ public class HandAnalyzerService {
 		} else {
 			return Integer.valueOf(removedAces);
 		}
+	}
+
+	public Integer getDeckCountLeftInGame(Integer cardsOutCount) {
+		Integer deckOutCount = cardsOutCount / CARDS_IN_DECK;
+		return DECKS_IN_CLASSIC_BLACK_JACK - deckOutCount;
+	}
+
+	public Integer getRealCount(Integer deckCountLeftInGame, Integer countInGame){
+		return countInGame / deckCountLeftInGame;
 	}
 
 }

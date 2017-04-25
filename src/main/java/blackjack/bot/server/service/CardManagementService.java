@@ -36,5 +36,11 @@ public class CardManagementService {
 				);
 	}
 
+	public Observable<Integer> getCardOutCountInGame(String gameName, String token) {
+		return gameAuth.auth(gameName, token)
+				.flatMap(t -> cardStorage.getAllCardsInGame(gameName).count());
+	}
+
+
 
 }

@@ -148,6 +148,32 @@ public class HandAnalyzerServiceLogicTest {
 		assertEquals(Integer.valueOf(18), handAnalyzerService.getSoftMinValue(ACE_SOFT_DRAW_SUM));
 	}
 
+	@Test
+	public void testGetDeckCountLeftInGame() throws Exception {
+		assertEquals((Integer) 6, handAnalyzerService.getDeckCountLeftInGame(0));
+		assertEquals((Integer) 6, handAnalyzerService.getDeckCountLeftInGame(1));
+		assertEquals((Integer) 6, handAnalyzerService.getDeckCountLeftInGame(51));
+		assertEquals((Integer) 5, handAnalyzerService.getDeckCountLeftInGame(52));
+		assertEquals((Integer) 5, handAnalyzerService.getDeckCountLeftInGame(53));
+		assertEquals((Integer) 4, handAnalyzerService.getDeckCountLeftInGame(104));
+		assertEquals((Integer) 4, handAnalyzerService.getDeckCountLeftInGame(124));
+		assertEquals((Integer) 4, handAnalyzerService.getDeckCountLeftInGame(124));
+		assertEquals((Integer) 2, handAnalyzerService.getDeckCountLeftInGame(250));
+		assertEquals((Integer) 2, handAnalyzerService.getDeckCountLeftInGame(253));
+		assertEquals((Integer) 1, handAnalyzerService.getDeckCountLeftInGame(263));
+		assertEquals((Integer) 0, handAnalyzerService.getDeckCountLeftInGame(312));
+	}
+
+	@Test
+	public void testGetRealCount() throws Exception {
+		assertEquals((Integer) 0, handAnalyzerService.getRealCount(6, 0));
+		assertEquals((Integer) 2, handAnalyzerService.getRealCount(5, 10));
+		assertEquals((Integer) 10, handAnalyzerService.getRealCount(2, 20));
+		assertEquals((Integer) 15, handAnalyzerService.getRealCount(2, 30));
+		assertEquals((Integer) (-15), handAnalyzerService.getRealCount(2, -30));
+		assertEquals((Integer) (-2), handAnalyzerService.getRealCount(5, -10));
+	}
+
 	private Card newCard(String val) {
 		return new Card("casino", val);
 	}

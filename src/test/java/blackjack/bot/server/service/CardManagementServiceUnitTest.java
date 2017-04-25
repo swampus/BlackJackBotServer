@@ -96,4 +96,21 @@ public class CardManagementServiceUnitTest {
 
 		verifyNoMoreInteractions(gameAuth, cardStorage);
 	}
+
+	@Test
+	public void testGetRealCount() throws Exception {
+		when(gameAuth.auth("gameName", "t")).thenReturn(Observable.just(null));
+		when(cardStorage.getAllCardsInGame("gameName")).thenReturn(Observable.just(
+				new Card("gm", "C_A"),
+				new Card("gm", "C_A"),
+				new Card("gm", "C_2")));
+
+		assertEquals((Integer) 3, cardManagementService
+				.getCardOutCountInGame("gameName", "t").toBlocking().first());
+
+		verify(gameAuth, times(1)).auth("gameName", "t");
+		verify(cardStorage, times(1)).getAllCardsInGame("gameName");
+
+		verifyNoMoreInteractions(gameAuth, cardStorage);
+	}
 }
