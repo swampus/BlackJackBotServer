@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import rx.Observable;
 
 @Service
-//TODO: TEST
 public class GameManagementService {
 
 	@Autowired

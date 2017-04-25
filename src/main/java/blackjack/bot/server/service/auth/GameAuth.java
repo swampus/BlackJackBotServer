@@ -13,7 +13,7 @@ public class GameAuth {
 	private GameTokenStorage gameTokenStorage;
 
 	public Observable<Void> auth(String gameName, String token) {
-		return gameTokenStorage.get(gameName).flatMap(
+		return gameTokenStorage.get(gameName).map(
 				gameToken -> {
 					if (gameToken == null || !gameToken.getToken().equals(token)) {
 						throw new GameOperationAuthFailedException(gameName);

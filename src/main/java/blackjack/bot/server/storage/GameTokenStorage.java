@@ -2,11 +2,11 @@ package blackjack.bot.server.storage;
 
 import blackjack.bot.server.storage.model.GameToken;
 import com.google.common.annotations.VisibleForTesting;
-import org.springframework.stereotype.Service;
 import rx.Observable;
 
-@Service
-//Todo: TEST
+import javax.annotation.Resource;
+
+@Resource
 public class GameTokenStorage extends AbstractStorage implements Storage<GameToken> {
 
 	@Override

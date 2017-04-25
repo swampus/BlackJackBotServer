@@ -1,12 +1,7 @@
 package blackjack.bot.server.rest.controller;
 
-import blackjack.bot.server.rest.factory.CalculationSystemFactory;
-import blackjack.bot.server.rest.model.DeckShuffleRequest;
-import blackjack.bot.server.rest.model.GameStateResponse;
-import blackjack.bot.server.rest.model.GetGameStateRequest;
 import blackjack.bot.server.rest.model.SingleCardOutRequest;
 import blackjack.bot.server.service.CardManagementService;
-import blackjack.bot.server.service.GameManagementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestBody;

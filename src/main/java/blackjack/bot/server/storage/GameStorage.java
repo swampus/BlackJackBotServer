@@ -2,10 +2,11 @@ package blackjack.bot.server.storage;
 
 import blackjack.bot.server.storage.model.Game;
 import com.google.common.annotations.VisibleForTesting;
-import org.springframework.stereotype.Service;
 import rx.Observable;
 
-@Service
+import javax.annotation.Resource;
+
+@Resource
 public class GameStorage extends AbstractStorage implements Storage<Game> {
 
 	@Override

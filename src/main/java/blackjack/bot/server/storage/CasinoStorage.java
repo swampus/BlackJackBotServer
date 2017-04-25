@@ -1,10 +1,11 @@
 package blackjack.bot.server.storage;
 
 import blackjack.bot.server.storage.model.Casino;
-import org.springframework.stereotype.Service;
 import rx.Observable;
 
-@Service
+import javax.annotation.Resource;
+
+@Resource
 public class CasinoStorage extends AbstractStorage implements Storage<Casino> {
 
 	private static String CASINO_LIST = "casinoList";

@@ -1,6 +1,6 @@
 package blackjack.bot.server.rest.controller;
 
-import blackjack.bot.server.rest.factory.CalculationSystemFactory;
+import blackjack.bot.server.service.strategy.card.calculation.factory.CalculationSystemFactory;
 import blackjack.bot.server.rest.model.DeckShuffleRequest;
 import blackjack.bot.server.rest.model.GameFinishRequest;
 import blackjack.bot.server.rest.model.GameStateResponse;

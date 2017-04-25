@@ -1,5 +1,8 @@
 package blackjack.bot.server.service.strategy.card.calculation;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class ZenCountSystem extends CustomCardCalculationSystem implements CardCalculationSystem {
 	//+1 +1 +2 +2 +2 +1 0 0 −2 −1
 	public ZenCountSystem() {
