@@ -37,6 +37,7 @@ public class GameController {
 			method = RequestMethod.POST,
 			produces = MediaType.APPLICATION_JSON_VALUE,
 			consumes = MediaType.APPLICATION_JSON_VALUE)
+
 	@ResponseBody
 	public void startGame() {
 	}
@@ -72,7 +73,8 @@ public class GameController {
 	@ResponseBody
 	public void stopGame(GameFinishRequest gameFinishRequest) {
 		gameManagementService
-				.stopGame(gameFinishRequest.getGameName(), gameFinishRequest.getGameToken());
+				.stopGame(gameFinishRequest.getGameName(), gameFinishRequest.getGameToken())
+				.toBlocking().first();
 	}
 
 

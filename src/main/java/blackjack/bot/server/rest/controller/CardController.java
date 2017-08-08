@@ -24,7 +24,7 @@ public class CardController {
 	@ResponseBody
 	public void cardOut(@RequestBody SingleCardOutRequest singleCardOutRequest) {
 		cardManagementService.addCard(singleCardOutRequest.getGameName(),
-				singleCardOutRequest.getGameToken(), singleCardOutRequest.getCardValue()).subscribe();
+				singleCardOutRequest.getGameToken(), singleCardOutRequest.getCardValue()).toBlocking().first();
 	}
 
 }

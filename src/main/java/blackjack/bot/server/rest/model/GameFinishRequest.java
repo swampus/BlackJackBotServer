@@ -17,15 +17,12 @@ public class GameFinishRequest {
 	public String getGameName() {
 		return gameName;
 	}
-
 	public void setGameName(String gameName) {
 		this.gameName = gameName;
 	}
-
 	public String getGameToken() {
 		return gameToken;
 	}
-
 	public void setGameToken(String gameToken) {
 		this.gameToken = gameToken;
 	}
