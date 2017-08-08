@@ -112,7 +112,7 @@ public class GameManagementServiceUnitTest {
 		verify(cardStorage, times(1)).deleteAllCardsInGame("gameName");
 		verify(gameTokenStorage, times(1)).delete("gameName");
 
-		verifyNoMoreInteractions(gameStorage, utilsService, gameValidator,gameTokenStorage);
+		verifyNoMoreInteractions(gameStorage, utilsService, gameValidator, gameTokenStorage);
 	}
 
 	@Test
@@ -127,4 +127,18 @@ public class GameManagementServiceUnitTest {
 
 		verifyNoMoreInteractions(gameStorage, utilsService, gameValidator);
 	}
+
+	@Test
+	public void getAllGamesInCasino() throws Exception {
+		when(gameStorage.getAllByCasinoName("casino"))
+				.thenReturn(Observable.just(new Game("1", "2"), new Game("3", "4")));
+
+		assertEquals(gameManagementService.getAllGamesInCasino("casino").toList().toBlocking().first(),
+				Observable.just(new Game("1", "2"), new Game("3", "4")).toList().toBlocking().first());
+
+		verify(gameStorage, times(1)).getAllByCasinoName("casino");
+
+		verifyNoMoreInteractions(gameStorage, utilsService, gameValidator);
+	}
+
 }

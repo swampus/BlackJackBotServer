@@ -64,5 +64,9 @@ public class GameManagementService {
 						.map(q -> null));
 	}
 
+	public Observable<Game> getAllGamesInCasino(String casinoName){
+		return gameStorage.getAllByCasinoName(casinoName);
+	}
+
 
 }

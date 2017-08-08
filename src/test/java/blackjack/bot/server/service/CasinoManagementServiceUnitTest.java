@@ -61,7 +61,7 @@ public class CasinoManagementServiceUnitTest {
 	@Test
 	public void testDeleteCasino() throws Exception {
 		when(casinoStorage.delete("casinoName")).thenReturn(Observable.just(null));
-		when(gameStorage.getAllByCasino("casinoName")).thenReturn(
+		when(gameStorage.getAllByCasinoName("casinoName")).thenReturn(
 				Observable.just(
 						new Game("A1", "casinoName"),
 						new Game("A2", "casinoName")));
@@ -80,7 +80,7 @@ public class CasinoManagementServiceUnitTest {
 		verify(gameStorage, times(1)).deleteAllGamesInCasino("casinoName");
 		verify(casinoStorage, times(1)).delete("casinoName");
 
-		verify(gameStorage, times(1)).getAllByCasino("casinoName");
+		verify(gameStorage, times(1)).getAllByCasinoName("casinoName");
 
 		verify(gameStorage, times(1)).delete("A1");
 		verify(gameTokenStorage, times(1)).delete("A1");
@@ -102,19 +102,19 @@ public class CasinoManagementServiceUnitTest {
 						new Casino("A2", "B2"),
 						new Casino("A3", "B3")));
 
-		when(gameStorage.getAllByCasino("A1")).thenReturn(
+		when(gameStorage.getAllByCasinoName("A1")).thenReturn(
 				Observable.just(
 						new Game("gm1", "q1"),
 						new Game("gm2", "q2"),
 						new Game("gm3", "q3")));
 
 
-		when(gameStorage.getAllByCasino("A2")).thenReturn(
+		when(gameStorage.getAllByCasinoName("A2")).thenReturn(
 				Observable.just(
 						new Game("game4", "qqq1"),
 						new Game("game5", "qqq2")));
 
-		when(gameStorage.getAllByCasino("A3")).thenReturn(
+		when(gameStorage.getAllByCasinoName("A3")).thenReturn(
 				Observable.just(
 						new Game("game6", "qqq3")));
 
@@ -132,9 +132,9 @@ public class CasinoManagementServiceUnitTest {
 			test with toBlocking, subscribing to Observable several times
 		*/
 		verify(casinoStorage, times(1)).getAll();
-		verify(gameStorage, times(4)).getAllByCasino("A1");
-		verify(gameStorage, times(1)).getAllByCasino("A2");
-		verify(gameStorage, times(1)).getAllByCasino("A3");
+		verify(gameStorage, times(4)).getAllByCasinoName("A1");
+		verify(gameStorage, times(1)).getAllByCasinoName("A2");
+		verify(gameStorage, times(1)).getAllByCasinoName("A3");
 
 		verifyNoMoreInteractions(casinoStorage, gameStorage);
 	}

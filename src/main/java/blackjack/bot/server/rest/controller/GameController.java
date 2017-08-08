@@ -1,5 +1,6 @@
 package blackjack.bot.server.rest.controller;
 
+import blackjack.bot.server.rest.model.AllGamesByCasinoRequest;
 import blackjack.bot.server.service.strategy.card.calculation.factory.CalculationSystemFactory;
 import blackjack.bot.server.rest.model.DeckShuffleRequest;
 import blackjack.bot.server.rest.model.GameFinishRequest;
@@ -83,8 +84,9 @@ public class GameController {
 			produces = MediaType.APPLICATION_JSON_VALUE,
 			consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<Game> displayAllGamesInCasino() {
-		return Lists.newArrayList();
+	public List<Game> displayAllGamesInCasino(AllGamesByCasinoRequest allGamesByCasinoRequest) {
+		return gameManagementService.getAllGamesInCasino(allGamesByCasinoRequest.getCasinoName())
+				.toList().toBlocking().single();
 	}
 
 

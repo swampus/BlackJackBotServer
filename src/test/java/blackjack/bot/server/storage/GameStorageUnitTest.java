@@ -69,7 +69,7 @@ public class GameStorageUnitTest {
 		when(reactiveCommands.get("g3")).thenReturn(Observable.just("casinoName"));
 		when(reactiveCommands.get("g4")).thenReturn(Observable.just("casinoName"));
 
-		Observable<Game> result = gameStorage.getAllByCasino("casinoName");
+		Observable<Game> result = gameStorage.getAllByCasinoName("casinoName");
 
 		TestSubscriber<Game> testSubscriber = new TestSubscriber<>();
 		result.subscribe(testSubscriber);

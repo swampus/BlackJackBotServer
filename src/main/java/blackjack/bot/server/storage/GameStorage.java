@@ -36,7 +36,7 @@ public class GameStorage extends AbstractStorage implements Storage<Game> {
 						.flatMap(t -> super.delete(gameName)));
 	}
 
-	public Observable<Game> getAllByCasino(String casinoName) {
+	public Observable<Game> getAllByCasinoName(String casinoName) {
 		return reactiveCommands
 				.lrange(createGamesInCasinoKey(casinoName), 0, Long.MAX_VALUE)
 				.map(name -> new Game(name, casinoName));

@@ -41,7 +41,7 @@ public class CasinoManagementService {
 	public Observable<Void> deleteCasino(String casinoName) {
 		return casinoStorage.delete(casinoName)
 				.map(q -> gameStorage.deleteAllGamesInCasino(casinoName))
-				.flatMap(t -> gameStorage.getAllByCasino(casinoName)
+				.flatMap(t -> gameStorage.getAllByCasinoName(casinoName)
 						.map(game -> {
 							final String name = game.getName();
 							gameStorage.delete(name);
@@ -54,7 +54,7 @@ public class CasinoManagementService {
 	public Observable<CasinoGames> getAllCasinosAndGames() {
 		return casinoStorage.getAll()
 				.map(casino -> new CasinoGames(casino,
-						gameStorage.getAllByCasino(casino.getName())));
+						gameStorage.getAllByCasinoName(casino.getName())));
 	}
 
 
