@@ -27,4 +27,5 @@ public class CardController {
 				singleCardOutRequest.getGameToken(), singleCardOutRequest.getCardValue()).toBlocking().first();
 	}
 
+
 }

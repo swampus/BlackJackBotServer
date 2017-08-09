@@ -1,13 +1,15 @@
 package blackjack.bot.server.rest.controller;
 
 import blackjack.bot.server.rest.model.AllGamesByCasinoRequest;
-import blackjack.bot.server.service.strategy.card.calculation.factory.CalculationSystemFactory;
 import blackjack.bot.server.rest.model.DeckShuffleRequest;
 import blackjack.bot.server.rest.model.GameFinishRequest;
 import blackjack.bot.server.rest.model.GameStateResponse;
 import blackjack.bot.server.rest.model.GetGameStateRequest;
 import blackjack.bot.server.service.CardManagementService;
 import blackjack.bot.server.service.GameManagementService;
+import blackjack.bot.server.service.strategy.BaseStrategy;
+import blackjack.bot.server.service.strategy.card.calculation.factory.CalculationSystemFactory;
+import blackjack.bot.server.service.strategy.model.NextAction;
 import blackjack.bot.server.storage.model.Game;
 import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +35,9 @@ public class GameController {
 
 	@Autowired
 	private CalculationSystemFactory calculationSystemFactory;
+
+	@Autowired
+	private BaseStrategy baseStrategy;
 
 	@RequestMapping(value = "/game/start}",
 			method = RequestMethod.POST,
@@ -91,7 +96,7 @@ public class GameController {
 
 
 	@RequestMapping(value = "/game/casino/advantage}",
-			method = RequestMethod.POST,
+			method = RequestMethod.GET,
 			produces = MediaType.APPLICATION_JSON_VALUE,
 			consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
@@ -99,5 +104,23 @@ public class GameController {
 		return Lists.newArrayList();
 	}
 
+	@RequestMapping(value = "/game/casino/base/next}",
+			method = RequestMethod.GET,
+			produces = MediaType.APPLICATION_JSON_VALUE,
+			consumes = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	//replace to POJO request
+	public NextAction getNextTurnInGameByStrategy(String gameName,
+	                                              String token,
+	                                              String strategy,
+	                                              Integer dealerCardValue,
+	                                              Integer playerCardValue) {
+
+		Double gameCount = calculationSystemFactory
+				.createCardCalculationSystem(strategy)
+				.calculate(cardManagementService.getAllCardsByGame(gameName, token)).toBlocking().first();
+
+		return baseStrategy.whatNext(dealerCardValue, playerCardValue, gameCount);
+	}
 
 }

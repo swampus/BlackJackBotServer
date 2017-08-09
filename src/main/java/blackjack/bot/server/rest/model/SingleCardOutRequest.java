@@ -3,7 +3,7 @@ package blackjack.bot.server.rest.model;
 import blackjack.bot.server.storage.model.Card;
 
 /**
- * Card leaves Deck, that change game stategy
+ * Card leaves Deck, that change game strategy
  */
 public class SingleCardOutRequest {
 	private String gameToken;

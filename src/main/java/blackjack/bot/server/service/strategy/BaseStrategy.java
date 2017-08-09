@@ -22,7 +22,7 @@ public class BaseStrategy {
 	 * 0,1,2,3,4,5,6,7,8,9
 	 */
 
-	public ImmutableList<NextAction> whatNext(Integer dealerCardValue, Integer playerCardValues) {
+	public NextAction whatNext(Integer dealerCardValue, Integer playerCardValues, Double count) {
 //		List<NextAction> actionsFrom4to8 = ImmutableList.of(
 //				new Hit(), new Hit(), new Hit(),
 //				new Hit(), new Hit(), new Hit(),
@@ -75,8 +75,8 @@ public class BaseStrategy {
 			}
 		}
 
-
-		return ImmutableList.copyOf(actionsFrom4to8);
+		//stub
+		return hit();
 	}
 
 	Hit hit() {
