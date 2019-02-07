@@ -11,11 +11,15 @@ import rx.Observable;
 @Service
 public class CardManagementService {
 
-	@Autowired
 	private CardStorage cardStorage;
 
-	@Autowired
 	private GameAuth gameAuth;
+
+	@Autowired
+	public CardManagementService(CardStorage cardStorage, GameAuth gameAuth) {
+		this.cardStorage = cardStorage;
+		this.gameAuth = gameAuth;
+	}
 
 	public Observable<Void> addCard(String gameName, String token, String card) {
 		return gameAuth.auth(gameName, token)

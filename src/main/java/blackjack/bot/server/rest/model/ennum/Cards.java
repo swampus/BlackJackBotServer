@@ -3,6 +3,9 @@ package blackjack.bot.server.rest.model.ennum;
 public enum Cards {
 
 	C_A(101),
+	C_K(10),
+	C_Q(10),
+	C_J(10),
 	C_T(10),
 	C_9(9),
 	C_8(8),

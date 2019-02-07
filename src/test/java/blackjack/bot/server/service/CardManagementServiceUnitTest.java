@@ -28,7 +28,7 @@ public class CardManagementServiceUnitTest {
 	private GameAuth gameAuth;
 
 	@InjectMocks
-	private CardManagementService cardManagementService = new CardManagementService();
+	private CardManagementService cardManagementService = new CardManagementService(cardStorage, gameAuth);
 
 	@Test
 	public void testAddCard() throws Exception {
